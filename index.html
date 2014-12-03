@@ -1,1 +1,107 @@
-Hello World
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+body {
+  margin: 0px;
+}
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: black;
+  font: 40px arial;
+  text-anchor: end;
+}
+
+</style>
+</head>
+<body>
+<svg class="chart"></svg>
+<script src="js/d3.v3.min.js"></script>
+<script>
+
+var width = window.innerWidth ||
+            html.clientWidth  ||
+            body.clientWidth  ||
+            screen.availWidth;
+
+var height = window.innerHeight ||
+             html.clientHeight  ||
+             body.clientHeight  ||
+             screen.availHeight;
+
+
+var x = d3.scale.linear()
+    .range([0, width]);
+
+var chart = d3.select(".chart").attr("width", width);
+chart.attr("height", height);
+
+/*d3.csv("data/data.csv", function(data) {
+    console.log(data);
+});
+*/
+var data = ["This", "is a", "test"];
+
+//var data = [4, 8, 15, 16, 23, 42];
+
+var d = new Date();
+
+var time = d.getTime()/1000;
+
+
+var bar = chart.selectAll("g").data(data).enter().append("g");
+var text = null;
+var box = null;
+
+
+// start animation for text entering at 0.5s after page load
+setTimeout(sendIn, 500);
+
+function addText() {
+  bar.append("rect")
+    .attr("x", function(d) { return -100; })
+    .attr("y", function(d) { return 0 })
+    .attr("width", 100)
+    .attr("height", 100);
+  box = bar.selectAll("rect");
+
+  bar.append("text")
+    .attr("x", function(d) { return -100; })
+    .attr("y", function(d) { return data.indexOf(d)*20; })
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+
+  text = bar.selectAll("text");
+}
+
+function sendIn() {
+  addText();
+
+  text.transition().attr("x", function(d) { return width/2; })
+  .attr("y", function(d) { return data.indexOf(d)*35+height/2; });
+
+    setTimeout(animateStart,3000);
+}
+
+function animateStart() {
+  setInterval(animate,(1000/60.0));
+}
+
+function animate() {
+	var d = new Date();
+	var time = d.getTime()/1000;
+	//console.log(time);
+
+	text.attr("transform", function(d, i) { return "translate(" + (100*Math.sin(time*2)) + "," + (100*Math.cos(time*2)) + ")"; });
+
+  text.attr("transform", function(d, i) { return "translate(" + (100*Math.sin(time*2)) + "," + (100*Math.cos(time*2)) + ")"; });
+
+}
+
+</script>
+</body>
+</html>
