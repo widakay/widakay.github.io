@@ -88,10 +88,11 @@ function sendIn() {
 }
 
 function animateStart() {
-  setInterval(animate,(1000/60.0));
+  animate();
 }
 
 function animate() {
+	requestAnimationFrame(animate);
 	var d = new Date();
 	var time = d.getTime()/1000;
 	//console.log(time);
